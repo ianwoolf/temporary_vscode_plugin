@@ -1,0 +1,138 @@
+{
+  "name": "git-diff-ai-reviewer",
+  "displayName": "Git Diff AI Reviewer",
+  "description": "Review git changes using AI",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:gitDiffAiReviewerSidebar"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitDiffAiReviewer-sidebar",
+          "title": "Git Diff AI Reviewer",
+          "icon": "assets/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "gitDiffAiReviewer-sidebar": [
+        {
+          "id": "gitDiffAiReviewerSidebar",
+          "name": "Code Review"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "gitDiffAiReviewer.review",
+        "title": "Review Git Diff with AI",
+        "category": "Git Diff AI Reviewer",
+        "icon": {
+          "light": "assets/light/review.svg",
+          "dark": "assets/dark/review.svg"
+        }
+      },
+      {
+        "command": "gitDiffAiReviewer.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "assets/light/refresh.svg",
+          "dark": "assets/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "gitDiffAiReviewer.configure",
+        "title": "Configure Settings",
+        "icon": {
+          "light": "assets/light/settings.svg",
+          "dark": "assets/dark/settings.svg"
+        }
+      },
+      {
+        "command": "gitDiffAiReviewer.showHistory",
+        "title": "Review History",
+        "icon": {
+          "light": "assets/light/history.svg",
+          "dark": "assets/dark/history.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "gitDiffAiReviewer.review",
+          "when": "view == gitDiffAiReviewerSidebar",
+          "group": "navigation"
+        },
+        {
+          "command": "gitDiffAiReviewer.refresh",
+          "when": "view == gitDiffAiReviewerSidebar",
+          "group": "navigation"
+        },
+        {
+          "command": "gitDiffAiReviewer.configure",
+          "when": "view == gitDiffAiReviewerSidebar",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "gitDiffAiReviewer.showHistory",
+          "when": "view == gitDiffAiReviewerSidebar",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Git Diff AI Reviewer",
+      "properties": {
+        "gitDiffAiReviewer.targetBranch": {
+          "type": "string",
+          "default": "main",
+          "description": "Target branch to compare against"
+        },
+        "gitDiffAiReviewer.aiApiUrl": {
+          "type": "string",
+          "default": "",
+          "description": "AI API endpoint URL"
+        },
+        "gitDiffAiReviewer.aiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "AI API Key"
+        },
+        "gitDiffAiReviewer.aiModel": {
+          "type": "string",
+          "default": "claude-3-5-sonnet-20241022",
+          "description": "AI model to use"
+        },
+        "gitDiffAiReviewer.maxDiffSize": {
+          "type": "number",
+          "default": 100000,
+          "description": "Maximum diff size in characters"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "eslint": "^8.45.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
