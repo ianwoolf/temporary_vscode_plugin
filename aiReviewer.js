@@ -3,14 +3,14 @@ const crypto = require('crypto');
 
 class AiReviewer {
     constructor() {
-        this.defaultPrompt = `你是一个代码审查专家。请分析以下 git diff，并提供：
-1. 整体评估（简要总结）
-2. 潜在问题（bug、安全、性能）
-3. 改进建议
-4. 最佳实践违规
-5. 积极亮点（发现的良好实践）
+        this.defaultPrompt = `You are a code review expert. Please analyze the following git diff and provide:
+1. Overall Assessment (Brief summary)
+2. Potential Issues (bugs, security, performance)
+3. Suggestions for Improvements
+4. Best Practices Violations
+5. Positive Highlights (good practices found)
 
-请简洁明了，使用 markdown 格式。`;
+Please be concise and specific. Format your response in markdown.`;
     }
 
     // 生成智谱AI的JWT token
@@ -73,7 +73,7 @@ class AiReviewer {
 
         const prompt = `${this.defaultPrompt}
 
-分支: ${currentBranch} → ${targetBranch}
+Branch: ${currentBranch} → ${targetBranch}
 
 Diff:
 \`\`\`diff
