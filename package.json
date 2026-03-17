@@ -64,6 +64,21 @@
           "light": "assets/light/history.svg",
           "dark": "assets/dark/history.svg"
         }
+      },
+      {
+        "command": "gitDiffAiReviewer.ssoLogin",
+        "title": "SSO Login",
+        "category": "Git Diff AI Reviewer"
+      },
+      {
+        "command": "gitDiffAiReviewer.ssoLogout",
+        "title": "SSO Logout",
+        "category": "Git Diff AI Reviewer"
+      },
+      {
+        "command": "gitDiffAiReviewer.tokenInfo",
+        "title": "Token Information",
+        "category": "Git Diff AI Reviewer"
       }
     ],
     "menus": {
@@ -119,13 +134,58 @@
           "type": "number",
           "default": 100000,
           "description": "Maximum diff size in characters"
+        },
+        "gitDiffAiReviewer.enableInternalLLM": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable company internal LLM service"
+        },
+        "gitDiffAiReviewer.ssoLoginUrl": {
+          "type": "string",
+          "default": "https://sso.dds.com/sercie-login",
+          "description": "SSO login URL for internal LLM authentication"
+        },
+        "gitDiffAiReviewer.ssoUsername": {
+          "type": "string",
+          "default": "",
+          "description": "SSO username for internal LLM"
+        },
+        "gitDiffAiReviewer.ssoPassword": {
+          "type": "string",
+          "default": "",
+          "description": "SSO password for internal LLM"
+        },
+        "gitDiffAiReviewer.internalLLMUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Internal LLM API endpoint URL"
+        },
+        "gitDiffAiReviewer.internalLLMModel": {
+          "type": "string",
+          "default": "claude-3-5-sonnet-20241022",
+          "description": "Model name for internal LLM"
+        },
+        "gitDiffAiReviewer.disableSSLVerification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Disable SSL certificate verification for internal services"
+        },
+        "gitDiffAiReviewer.tokenCacheExpiry": {
+          "type": "number",
+          "default": 3600,
+          "description": "Token cache expiry time in seconds (default: 1 hour)"
         }
       }
     }
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "node ./test/runTest.js"
+    "test": "node ./test/runTest.js",
+    "watch": "npm run build && node --watch build/extension.js",
+    "start": "node build/extension.js",
+    "build": "echo 'No build step needed for JavaScript project'",
+    "test:sso": "node test/test-sso.js",
+    "test:ai": "node test/test-ai-reviewer.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
