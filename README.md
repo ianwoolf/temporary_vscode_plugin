@@ -5,7 +5,8 @@
 ## 功能特性
 
 - 🔄 自动获取当前分支与目标分支的 git diff
-- 🤖 调用自定义 AI 接口进行代码审查
+- 🤖 调用 AI 接口进行代码审查（默认使用内部 LLM）
+- 🏢 支持公司内部 LLM 服务与 SSO 认证
 - 📊 在 Webview 页面中美观地展示审查结果
 - 📱 侧边栏集成，一键启动审查
 - 📜 审查历史记录，方便查看过往审查
@@ -25,35 +26,64 @@ code --install-extension git-diff-ai-reviewer-0.0.1.vsix
 
 ## 配置
 
-在 VSCode 设置中搜索 `Git Diff AI Reviewer`，配置以下选项：
+### 快速开始 - 使用内部 LLM（推荐）
+
+插件默认启用公司内部 LLM 服务。只需在 VSCode 设置中搜索 `Git Diff AI Reviewer`，配置以下必填项：
+
+| 配置项 | 说明 | 示例值 |
+|--------|------|--------|
+| `llm.enableInternal` | 启用内部 LLM（默认已启用） | `true` |
+| `sso.username` | SSO 用户名 | `your-username` |
+| `sso.password` | SSO 密码 | `your-password` |
+| `llm.url` | 内部 LLM API 地址 | `https://your-llm-url/v1/messages` |
+
+可选配置项：
 
 | 配置项 | 说明 | 默认值 |
 |--------|------|--------|
-| `gitDiffAiReviewer.targetBranch` | 目标分支名称 | `main` |
-| `gitDiffAiReviewer.aiApiUrl` | AI API 接口地址 | 必填 |
-| `gitDiffAiReviewer.aiApiKey` | AI API 密钥 | 必填 |
-| `gitDiffAiReviewer.aiModel` | AI 模型名称 | `claude-3-5-sonnet-20241022` |
-| `gitDiffAiReviewer.maxDiffSize` | 最大 diff 大小（字符数） | `100000` |
+| `targetBranch` | 目标分支名称 | `main` |
+| `llm.model` | 模型名称 | `claude-3-5-sonnet-20241022` |
+| `maxDiffSize` | 最大 diff 大小（字符数） | `100000` |
+| `llm.verifySsl` | 验证 SSL 证书 | `false`（推荐用于开发） |
+| `sso.loginUrl` | SSO 登录 URL | `https://sso.dds.com/sercie-login` |
+
+### 使用外部 AI 服务（可选）
+
+如需使用外部 AI 服务（如 Claude、智谱 AI 等），将 `llm.enableInternal` 设置为 `false`，然后配置：
+
+| 配置项 | 说明 | 默认值 |
+|--------|------|--------|
+| `externalAi.url` | AI API 接口地址 | 必填 |
+| `externalAi.apiKey` | AI API 密钥 | 必填 |
+| `externalAi.model` | AI 模型名称 | `claude-3-5-sonnet-20241022` |
 
 ### API 接口要求
 
-自定义 AI 接口需要支持类似 Claude API 的请求格式：
+#### 内部 LLM 接口（Anthropic 格式）
+
+内部 LLM 接口需要支持 Claude API 兼容的请求格式：
 
 ```json
 {
-  "model": "your-model-name",
+  "model": "claude-3-5-sonnet-20241022",
   "max_tokens": 4096,
   "messages": [
     {
       "role": "user",
-      "content": "审查内容..."
+      "content": "代码审查内容..."
     }
   ]
 }
 ```
 
 响应格式应包含：
-- `content[0].text` 或 `message` 字段返回审查结果
+- `content[0].text` - Claude API 格式
+- 或 `choices[0].message.content` - OpenAI 格式
+- 或 `message` 字段返回审查结果
+
+#### 外部 AI 接口（可选）
+
+外部 AI 接口也需要支持类似的请求格式。根据 AI 服务商提供的文档进行配置。
 
 ## 使用方法
 
@@ -107,5 +137,3 @@ npm install
 
 # 在 VSCode 中按 F5 启动扩展开发主机进行调试
 ```
-
-remove license

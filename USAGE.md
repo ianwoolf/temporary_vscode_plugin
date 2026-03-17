@@ -13,12 +13,27 @@ npm install
 
 ### 2. 配置 AI API
 
-在 VSCode 中打开设置（`Cmd+,` 或 `Ctrl+,`），搜索 `Git Diff AI Reviewer`，配置以下必需项：
+在 VSCode 中打开设置（`Cmd+,` 或 `Ctrl+,`），搜索 `Git Diff AI Reviewer`，根据使用场景选择配置：
+
+#### 中文翻译：使用内部 LLM（推荐）
 
 ```json
 {
-  "gitDiffAiReviewer.aiApiUrl": "https://api.anthropic.com/v1/messages",
-  "gitDiffAiReviewer.aiApiKey": "your-api-key-here",
+  "gitDiffAiReviewer.llm.enableInternal": true,
+  "gitDiffAiReviewer.llm.url": "https://your-internal-llm-url.com/v1/messages",
+  "gitDiffAiReviewer.sso.username": "your-username",
+  "gitDiffAiReviewer.sso.password": "your-password",
+  "gitDiffAiReviewer.targetBranch": "main"
+}
+```
+
+#### 使用外部 AI 服务
+
+```json
+{
+  "gitDiffAiReviewer.llm.enableInternal": false,
+  "gitDiffAiReviewer.externalAi.url": "https://api.anthropic.com/v1/messages",
+  "gitDiffAiReviewer.externalAi.apiKey": "your-api-key-here",
   "gitDiffAiReviewer.targetBranch": "main"
 }
 ```

@@ -1,198 +1,195 @@
 {
-  "name": "git-diff-ai-reviewer",
-  "displayName": "Git Diff AI Reviewer",
-  "description": "Review git changes using AI",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.80.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onView:gitDiffAiReviewerSidebar"
-  ],
-  "main": "./extension.js",
-  "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "gitDiffAiReviewer-sidebar",
-          "title": "Git Diff AI Reviewer",
-          "icon": "assets/icon.svg"
-        }
-      ]
+    "name": "git-diff-ai-reviewer",
+    "displayName": "Git Diff AI Reviewer",
+    "description": "Review git changes using AI",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.80.0"
     },
-    "views": {
-      "gitDiffAiReviewer-sidebar": [
-        {
-          "id": "gitDiffAiReviewerSidebar",
-          "name": "Code Review"
-        }
-      ]
-    },
-    "commands": [
-      {
-        "command": "gitDiffAiReviewer.review",
-        "title": "Review Git Diff with AI",
-        "category": "Git Diff AI Reviewer",
-        "icon": {
-          "light": "assets/light/review.svg",
-          "dark": "assets/dark/review.svg"
-        }
-      },
-      {
-        "command": "gitDiffAiReviewer.refresh",
-        "title": "Refresh",
-        "icon": {
-          "light": "assets/light/refresh.svg",
-          "dark": "assets/dark/refresh.svg"
-        }
-      },
-      {
-        "command": "gitDiffAiReviewer.configure",
-        "title": "Configure Settings",
-        "icon": {
-          "light": "assets/light/settings.svg",
-          "dark": "assets/dark/settings.svg"
-        }
-      },
-      {
-        "command": "gitDiffAiReviewer.showHistory",
-        "title": "Review History",
-        "icon": {
-          "light": "assets/light/history.svg",
-          "dark": "assets/dark/history.svg"
-        }
-      },
-      {
-        "command": "gitDiffAiReviewer.ssoLogin",
-        "title": "SSO Login",
-        "category": "Git Diff AI Reviewer"
-      },
-      {
-        "command": "gitDiffAiReviewer.ssoLogout",
-        "title": "SSO Logout",
-        "category": "Git Diff AI Reviewer"
-      },
-      {
-        "command": "gitDiffAiReviewer.tokenInfo",
-        "title": "Token Information",
-        "category": "Git Diff AI Reviewer"
-      }
+    "categories": [
+        "Other"
     ],
-    "menus": {
-      "view/title": [
-        {
-          "command": "gitDiffAiReviewer.review",
-          "when": "view == gitDiffAiReviewerSidebar",
-          "group": "navigation"
+    "activationEvents": [
+        "onView:gitDiffAiReviewerSidebar"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "gitDiffAiReviewer-sidebar",
+                    "title": "Git Diff AI Reviewer",
+                    "icon": "assets/icon.svg"
+                }
+            ]
         },
-        {
-          "command": "gitDiffAiReviewer.refresh",
-          "when": "view == gitDiffAiReviewerSidebar",
-          "group": "navigation"
+        "views": {
+            "gitDiffAiReviewer-sidebar": [
+                {
+                    "id": "gitDiffAiReviewerSidebar",
+                    "name": "Code Review"
+                }
+            ]
         },
-        {
-          "command": "gitDiffAiReviewer.configure",
-          "when": "view == gitDiffAiReviewerSidebar",
-          "group": "navigation"
+        "commands": [
+            {
+                "command": "gitDiffAiReviewer.review",
+                "title": "Review Git Diff with AI",
+                "category": "Git Diff AI Reviewer",
+                "icon": {
+                    "light": "assets/light/review.svg",
+                    "dark": "assets/dark/review.svg"
+                }
+            },
+            {
+                "command": "gitDiffAiReviewer.refresh",
+                "title": "Refresh",
+                "icon": {
+                    "light": "assets/light/refresh.svg",
+                    "dark": "assets/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "gitDiffAiReviewer.configure",
+                "title": "Configure Settings",
+                "icon": {
+                    "light": "assets/light/settings.svg",
+                    "dark": "assets/dark/settings.svg"
+                }
+            },
+            {
+                "command": "gitDiffAiReviewer.showHistory",
+                "title": "Review History",
+                "icon": {
+                    "light": "assets/light/history.svg",
+                    "dark": "assets/dark/history.svg"
+                }
+            },
+            {
+                "command": "gitDiffAiReviewer.ssoLogin",
+                "title": "SSO Login",
+                "category": "Git Diff AI Reviewer"
+            },
+            {
+                "command": "gitDiffAiReviewer.ssoLogout",
+                "title": "SSO Logout",
+                "category": "Git Diff AI Reviewer"
+            },
+            {
+                "command": "gitDiffAiReviewer.tokenInfo",
+                "title": "Token Information",
+                "category": "Git Diff AI Reviewer"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "gitDiffAiReviewer.review",
+                    "when": "view == gitDiffAiReviewerSidebar",
+                    "group": "navigation"
+                },
+                {
+                    "command": "gitDiffAiReviewer.refresh",
+                    "when": "view == gitDiffAiReviewerSidebar",
+                    "group": "navigation"
+                },
+                {
+                    "command": "gitDiffAiReviewer.configure",
+                    "when": "view == gitDiffAiReviewerSidebar",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "gitDiffAiReviewer.showHistory",
+                    "when": "view == gitDiffAiReviewerSidebar",
+                    "group": "inline"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Git Diff AI Reviewer",
+            "properties": {
+                "gitDiffAiReviewer.targetBranch": {
+                    "type": "string",
+                    "default": "main",
+                    "description": "Target branch to compare against"
+                },
+                "gitDiffAiReviewer.externalAi.url": {
+                    "type": "string",
+                    "default": "",
+                    "description": "External AI API endpoint URL"
+                },
+                "gitDiffAiReviewer.externalAi.apiKey": {
+                    "type": "string",
+                    "default": "",
+                    "description": "External AI API Key"
+                },
+                "gitDiffAiReviewer.externalAi.model": {
+                    "type": "string",
+                    "default": "claude-3-5-sonnet-20241022",
+                    "description": "External AI model to use"
+                },
+                "gitDiffAiReviewer.maxDiffSize": {
+                    "type": "number",
+                    "default": 100000,
+                    "description": "Maximum diff size in characters"
+                },
+                "gitDiffAiReviewer.llm.enableInternal": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable company internal LLM service"
+                },
+                "gitDiffAiReviewer.llm.url": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Internal LLM API endpoint URL"
+                },
+                "gitDiffAiReviewer.llm.model": {
+                    "type": "string",
+                    "default": "claude-3-5-sonnet-20241022",
+                    "description": "Model name for internal LLM"
+                },
+                "gitDiffAiReviewer.llm.verifySsl": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Verify SSL certificate for internal services (default: false for dev)"
+                },
+                "gitDiffAiReviewer.llm.tokenCacheDurationSeconds": {
+                    "type": "number",
+                    "default": 3600,
+                    "description": "Token cache duration in seconds (default: 1 hour)"
+                },
+                "gitDiffAiReviewer.sso.loginUrl": {
+                    "type": "string",
+                    "default": "https://sso.dds.com/sercie-login",
+                    "description": "SSO login URL for internal LLM authentication"
+                },
+                "gitDiffAiReviewer.sso.username": {
+                    "type": "string",
+                    "default": "",
+                    "description": "SSO username for internal LLM"
+                },
+                "gitDiffAiReviewer.sso.password": {
+                    "type": "string",
+                    "default": "",
+                    "description": "SSO password for internal LLM"
+                }
+            }
         }
-      ],
-      "view/item/context": [
-        {
-          "command": "gitDiffAiReviewer.showHistory",
-          "when": "view == gitDiffAiReviewerSidebar",
-          "group": "inline"
-        }
-      ]
     },
-    "configuration": {
-      "title": "Git Diff AI Reviewer",
-      "properties": {
-        "gitDiffAiReviewer.targetBranch": {
-          "type": "string",
-          "default": "main",
-          "description": "Target branch to compare against"
-        },
-        "gitDiffAiReviewer.aiApiUrl": {
-          "type": "string",
-          "default": "",
-          "description": "AI API endpoint URL"
-        },
-        "gitDiffAiReviewer.aiApiKey": {
-          "type": "string",
-          "default": "",
-          "description": "AI API Key"
-        },
-        "gitDiffAiReviewer.aiModel": {
-          "type": "string",
-          "default": "claude-3-5-sonnet-20241022",
-          "description": "AI model to use"
-        },
-        "gitDiffAiReviewer.maxDiffSize": {
-          "type": "number",
-          "default": 100000,
-          "description": "Maximum diff size in characters"
-        },
-        "gitDiffAiReviewer.enableInternalLLM": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable company internal LLM service"
-        },
-        "gitDiffAiReviewer.ssoLoginUrl": {
-          "type": "string",
-          "default": "https://sso.dds.com/sercie-login",
-          "description": "SSO login URL for internal LLM authentication"
-        },
-        "gitDiffAiReviewer.ssoUsername": {
-          "type": "string",
-          "default": "",
-          "description": "SSO username for internal LLM"
-        },
-        "gitDiffAiReviewer.ssoPassword": {
-          "type": "string",
-          "default": "",
-          "description": "SSO password for internal LLM"
-        },
-        "gitDiffAiReviewer.internalLLMUrl": {
-          "type": "string",
-          "default": "",
-          "description": "Internal LLM API endpoint URL"
-        },
-        "gitDiffAiReviewer.internalLLMModel": {
-          "type": "string",
-          "default": "claude-3-5-sonnet-20241022",
-          "description": "Model name for internal LLM"
-        },
-        "gitDiffAiReviewer.disableSSLVerification": {
-          "type": "boolean",
-          "default": true,
-          "description": "Disable SSL certificate verification for internal services"
-        },
-        "gitDiffAiReviewer.tokenCacheExpiry": {
-          "type": "number",
-          "default": 3600,
-          "description": "Token cache expiry time in seconds (default: 1 hour)"
-        }
-      }
+    "scripts": {
+        "lint": "eslint .",
+        "watch": "npm run build && node --watch build/extension.js",
+        "start": "node build/extension.js",
+        "build": "echo 'No build step needed for JavaScript project'"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.80.0",
+        "eslint": "^8.45.0",
+        "typescript": "^5.1.6"
+    },
+    "dependencies": {
+        "axios": "^1.6.0"
     }
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "test": "node ./test/runTest.js",
-    "watch": "npm run build && node --watch build/extension.js",
-    "start": "node build/extension.js",
-    "build": "echo 'No build step needed for JavaScript project'",
-    "test:sso": "node test/test-sso.js",
-    "test:ai": "node test/test-ai-reviewer.js"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.80.0",
-    "eslint": "^8.45.0",
-    "typescript": "^5.1.6"
-  },
-  "dependencies": {
-    "axios": "^1.6.0"
-  }
 }

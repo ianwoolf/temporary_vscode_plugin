@@ -16,13 +16,13 @@ Git Diff AI Reviewer 现在支持接入公司内部的LLM服务，包括：
 
 ```json
 {
-  "gitDiffAiReviewer.enableInternalLLM": true,
-  "gitDiffAiReviewer.ssoLoginUrl": "https://sso.dds.com/sercie-login",
-  "gitDiffAiReviewer.ssoUsername": "your-username",
-  "gitDiffAiReviewer.ssoPassword": "your-password",
-  "gitDiffAiReviewer.internalLLMUrl": "https://your-internal-llm-url.com/v1/messages",
-  "gitDiffAiReviewer.internalLLMModel": "claude-3-5-sonnet-20241022",
-  "gitDiffAiReviewer.disableSSLVerification": true
+  "gitDiffAiReviewer.llm.enableInternal": true,
+  "gitDiffAiReviewer.sso.loginUrl": "https://sso.dds.com/sercie-login",
+  "gitDiffAiReviewer.sso.username": "your-username",
+  "gitDiffAiReviewer.sso.password": "your-password",
+  "gitDiffAiReviewer.llm.url": "https://your-internal-llm-url.com/v1/messages",
+  "gitDiffAiReviewer.llm.model": "claude-3-5-sonnet-20241022",
+  "gitDiffAiReviewer.llm.verifySsl": false
 }
 ```
 
@@ -30,13 +30,14 @@ Git Diff AI Reviewer 现在支持接入公司内部的LLM服务，包括：
 
 | 配置项 | 说明 | 默认值 | 必填 |
 |--------|------|--------|------|
-| `enableInternalLLM` | 启用内部LLM服务 | `false` | 是 |
-| `ssoLoginUrl` | SSO登录接口地址 | `https://sso.dds.com/sercie-login` | 否 |
-| `ssoUsername` | SSO用户名 | `""` | 是 |
-| `ssoPassword` | SSO密码 | `""` | 是 |
-| `internalLLMUrl` | 内部LLM接口地址 | `""` | 是 |
-| `internalLLMModel` | 模型名称 | `claude-3-5-sonnet-20241022` | 否 |
-| `disableSSLVerification` | 禁用SSL证书校验 | `true` | 否 |
+| `llm.enableInternal` | 启用内部LLM服务 | `true` | 是 |
+| `sso.loginUrl` | SSO登录接口地址 | `https://sso.dds.com/sercie-login` | 否 |
+| `sso.username` | SSO用户名 | `""` | 是 |
+| `sso.password` | SSO密码 | `""` | 是 |
+| `llm.url` | 内部LLM接口地址 | `""` | 是 |
+| `llm.model` | 模型名称 | `claude-3-5-sonnet-20241022` | 否 |
+| `llm.verifySsl` | 验证SSL证书 | `false` | 否 |
+| `llm.tokenCacheDurationSeconds` | Token缓存时长（秒） | `3600` | 否 |
 
 ### 3. 使用方法
 
@@ -95,7 +96,7 @@ Git Diff AI Reviewer: Token Information
 1. **密码存储**：密码使用AES加密存储在 `config.json` 中
 2. **Token缓存**：Token默认缓存1小时，过期后自动重新登录
 3. **目录保护**：`.ada_plugin` 目录不会被git跟踪
-4. **SSL警告**：禁用SSL验证仅用于开发测试环境
+4. **SSL验证**：`llm.verifySsl` 为 false 时（推荐用于开发）禁用SSL验证
 
 ### 7. 故障排除
 
@@ -119,7 +120,7 @@ Git Diff AI Reviewer: Token Information
 - 使用 `Git Diff AI Reviewer: Token Information` 查看token状态
 
 #### SSL连接错误
-- 确保 `disableSSLVerification` 设置为 `true`
+- 确保 `llm.verifySsl` 设置为 `false`（推荐用于开发）
 - 检查网络连接和防火墙设置
 
 ### 8. API接口格式
@@ -177,7 +178,7 @@ anthropic-version: 2023-06-01
 
 启用内部LLM后，现有的AI服务（Claude、智谱AI等）仍然可用：
 
-1. 设置 `enableInternalLLM: false` 可切换回外部AI服务
+1. 设置 `llm.enableInternal: false` 可切换回外部AI服务
 2. 配置参数互不冲突，可同时配置多个服务
 3. 系统会根据配置自动选择合适的AI服务
 
@@ -186,22 +187,22 @@ anthropic-version: 2023-06-01
 #### 开发环境配置
 ```json
 {
-  "gitDiffAiReviewer.enableInternalLLM": true,
-  "gitDiffAiReviewer.ssoUsername": "dev-user",
-  "gitDiffAiReviewer.ssoPassword": "dev-password",
-  "gitDiffAiReviewer.internalLLMUrl": "https://dev-llm.internal.com/v1/messages",
-  "gitDiffAiReviewer.disableSSLVerification": true
+  "gitDiffAiReviewer.llm.enableInternal": true,
+  "gitDiffAiReviewer.sso.username": "dev-user",
+  "gitDiffAiReviewer.sso.password": "dev-password",
+  "gitDiffAiReviewer.llm.url": "https://dev-llm.internal.com/v1/messages",
+  "gitDiffAiReviewer.llm.verifySsl": false
 }
 ```
 
 #### 生产环境配置
 ```json
 {
-  "gitDiffAiReviewer.enableInternalLLM": true,
-  "gitDiffAiReviewer.ssoUsername": "prod-user",
-  "gitDiffAiReviewer.ssoPassword": "prod-password",
-  "gitDiffAiReviewer.internalLLMUrl": "https://prod-llm.internal.com/v1/messages",
-  "gitDiffAiReviewer.disableSSLVerification": false
+  "gitDiffAiReviewer.llm.enableInternal": true,
+  "gitDiffAiReviewer.sso.username": "prod-user",
+  "gitDiffAiReviewer.sso.password": "prod-password",
+  "gitDiffAiReviewer.llm.url": "https://prod-llm.internal.com/v1/messages",
+  "gitDiffAiReviewer.llm.verifySsl": true
 }
 ```
 

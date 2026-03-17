@@ -35,25 +35,25 @@ function activate(context) {
             // Get configuration
             const config = vscode.workspace.getConfiguration('gitDiffAiReviewer');
             const targetBranch = config.get('targetBranch', 'main');
-            const enableInternalLLM = config.get('enableInternalLLM', false);
-            const aiApiUrl = config.get('aiApiUrl', '');
-            const aiApiKey = config.get('aiApiKey', '');
-            const aiModel = config.get('aiModel', 'claude-3-5-sonnet-20241022');
+            const enableInternalLLM = config.get('llm.enableInternal', true);
+            const externalAiUrl = config.get('externalAi.url', '');
+            const externalAiKey = config.get('externalAi.apiKey', '');
+            const externalAiModel = config.get('externalAi.model', 'claude-3-5-sonnet-20241022');
             const maxDiffSize = config.get('maxDiffSize', 100000);
 
             // Validate configuration based on LLM type
             if (enableInternalLLM) {
                 // 内部LLM配置验证
-                const ssoUsername = config.get('ssoUsername', '');
-                const ssoPassword = config.get('ssoPassword', '');
-                const internalLLMUrl = config.get('internalLLMUrl', '');
+                const ssoUsername = config.get('sso.username', '');
+                const ssoPassword = config.get('sso.password', '');
+                const internalLLMUrl = config.get('llm.url', '');
 
                 if (!ssoUsername || !ssoPassword) {
-                    vscode.window.showErrorMessage('Please configure SSO credentials (username/password) in settings');
+                    vscode.window.showErrorMessage('Please configure SSO credentials (sso.username/sso.password) in settings');
                     return;
                 }
                 if (!internalLLMUrl) {
-                    vscode.window.showErrorMessage('Please configure Internal LLM URL in settings');
+                    vscode.window.showErrorMessage('Please configure Internal LLM URL (llm.url) in settings');
                     return;
                 }
 
@@ -70,8 +70,8 @@ function activate(context) {
                 }
             } else {
                 // 外部AI服务配置验证
-                if (!aiApiUrl || !aiApiKey) {
-                    vscode.window.showErrorMessage('Please configure AI API URL and API Key in settings');
+                if (!externalAiUrl || !externalAiKey) {
+                    vscode.window.showErrorMessage('Please configure External AI URL (externalAi.url) and API Key (externalAi.apiKey) in settings');
                     return;
                 }
             }
@@ -108,9 +108,9 @@ function activate(context) {
 
                 // Get AI review
                 const review = await aiReviewer.review(diff, {
-                    apiUrl: enableInternalLLM ? config.get('internalLLMUrl', '') : aiApiUrl,
-                    apiKey: aiApiKey,
-                    model: enableInternalLLM ? config.get('internalLLMModel', aiModel) : aiModel,
+                    apiUrl: enableInternalLLM ? config.get('llm.url', '') : externalAiUrl,
+                    apiKey: externalAiKey,
+                    model: enableInternalLLM ? config.get('llm.model', externalAiModel) : externalAiModel,
                     targetBranch: targetBranch,
                     currentBranch: await gitDiffProvider.getCurrentBranch(),
                     config: config, // 传递完整配置

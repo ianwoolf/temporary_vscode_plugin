@@ -83,9 +83,9 @@ class SSOAuthManager {
             const password = await this.configManager.getPassword();
 
             // 优先使用配置文件中的凭据，如果没有则使用VSCode配置
-            const userid = ssoConfig.userid || vscodeConfig?.ssoUsername || '';
-            const userPassword = password || vscodeConfig?.ssoPassword || '';
-            const loginUrl = ssoConfig.loginUrl || vscodeConfig?.ssoLoginUrl || 'https://sso.dds.com/sercie-login';
+            const userid = ssoConfig.userid || vscodeConfig?.['sso.username'] || '';
+            const userPassword = password || vscodeConfig?.['sso.password'] || '';
+            const loginUrl = ssoConfig.loginUrl || vscodeConfig?.['sso.loginUrl'] || 'https://sso.dds.com/sercie-login';
 
             // 验证必要参数
             if (!userid || !userPassword) {

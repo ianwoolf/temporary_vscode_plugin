@@ -5,14 +5,40 @@ const SSOAuthManager = require('./ssoAuthManager');
 
 class AiReviewer {
     constructor() {
-        this.defaultPrompt = `You are a code review expert. Please analyze the following git diff and provide:
-1. Overall Assessment (Brief summary)
-2. Potential Issues (bugs, security, performance)
-3. Suggestions for Improvements
-4. Best Practices Violations
-5. Positive Highlights (good practices found)
+        this.defaultPrompt = `You are a code review expert. Please analyze the following git diff and provide comprehensive code review with severity classification and fix suggestions.
 
-Please be concise and specific. Format your response in markdown.`;
+STRUCTURE YOUR RESPONSE AS FOLLOWS:
+
+# Overall Assessment
+Brief summary of the code changes and overall quality
+
+## Issues Found
+For each issue, use the following format with severity levels and fix guidance:
+
+### [CRITICAL] Section Title (for critical/security issues)
+- 🔴 **Critical Issue Title**: Detailed description
+  - **How to fix**: Specific steps or code changes needed to resolve this issue
+
+### [WARNING] Section Title (for important but non-critical issues)  
+- 🟠 **Warning Issue Title**: Detailed description
+  - **How to fix**: Specific steps or code changes needed to resolve this issue
+
+### [INFO] Section Title (for suggestions and improvements)
+- 🔵 **Info/Suggestion Title**: Detailed description
+  - **How to fix**: Specific recommendation or improvement approach
+
+## Severity Guidelines:
+- **CRITICAL** (🔴): Security vulnerabilities, data loss risks, crashes, null pointer exceptions, SQL injection, XSS, authentication bypasses, memory leaks
+- **WARNING** (🟠): Logic errors, performance issues, deprecated usage, error handling problems, infinite loops, potential bugs
+- **INFO** (🔵): Code style, best practices, readability, maintainability suggestions, improvements
+
+## Positive Highlights
+- ✅ What the code does well
+
+## Recommendations
+- Specific actions to address issues
+
+Please be concise and specific. Format your response in markdown. Use the icons (🔴 🟠 🔵) and severity levels consistently. For each issue, always include a "How to fix" section with actionable guidance.`;
     }
 
     // 生成智谱AI的JWT token
@@ -84,11 +110,11 @@ ${diff}
 `;
 
         try {
-            // 检测是否是内部LLM
-            const enableInternalLLM = config?.enableInternalLLM || false;
-            const isInternalLLM = enableInternalLLM && (apiUrl.includes('dds.com') || apiUrl.includes('internal') || config?.internalLLMUrl);
+            // 首先检测是否启用了内部LLM
+            const enableInternalLLM = config?.['llm.enableInternal'] === true;
 
-            if (isInternalLLM) {
+            if (enableInternalLLM) {
+                // 优先使用内部LLM
                 return await this.reviewWithInternalLLM(diff, options, prompt);
             }
 
@@ -226,13 +252,14 @@ ${diff}
                 const token = await ssoAuthManager.getValidToken(config);
 
                 // 3. 获取内部LLM配置
-                const internalLLMUrl = config.internalLLMUrl || options.apiUrl;
-                const internalLLMModel = config.internalLLMModel || options.model || 'claude-3-5-sonnet-20241022';
-                const disableSSL = config.disableSSLVerification !== false; // 默认禁用SSL验证
+                const internalLLMUrl = config?.['llm.url'] || options.apiUrl;
+                const internalLLMModel = config?.['llm.model'] || options.model || 'claude-3-5-sonnet-20241022';
+                const verifySsl = config?.['llm.verifySsl'] === true; // 现在是正逻辑，默认不验证
+                const disableSSL = !verifySsl; // 转换为 disableSSL
 
                 console.log(`Using internal LLM: ${internalLLMUrl}`);
                 console.log(`Model: ${internalLLMModel}`);
-                console.log(`SSL verification: ${disableSSL ? 'disabled' : 'enabled'}`);
+                console.log(`SSL verification: ${verifySsl ? 'enabled' : 'disabled'}`);
                 if (retryCount > 0) {
                     console.log(`Retry attempt ${retryCount}/${maxRetries}`);
                 }

@@ -23,12 +23,25 @@ npm install
 1. 打开一个 Git 仓库
 2. 按 `Cmd+,`（Mac）或 `Ctrl+,`（Windows/Linux）打开设置
 3. 搜索 `Git Diff AI Reviewer`
-4. 填写以下配置：
+4. 根据使用场景选择配置：
 
+**内部 LLM 配置（推荐）**
 ```json
 {
-  "gitDiffAiReviewer.aiApiUrl": "你的AI接口地址",
-  "gitDiffAiReviewer.aiApiKey": "你的API密钥",
+  "gitDiffAiReviewer.llm.enableInternal": true,
+  "gitDiffAiReviewer.llm.url": "你的内部LLM地址",
+  "gitDiffAiReviewer.sso.username": "你的用户名",
+  "gitDiffAiReviewer.sso.password": "你的密码",
+  "gitDiffAiReviewer.targetBranch": "main"
+}
+```
+
+**外部 AI 配置**
+```json
+{
+  "gitDiffAiReviewer.llm.enableInternal": false,
+  "gitDiffAiReviewer.externalAi.url": "你的AI接口地址",
+  "gitDiffAiReviewer.externalAi.apiKey": "你的API密钥",
   "gitDiffAiReviewer.targetBranch": "main"
 }
 ```
@@ -47,9 +60,10 @@ npm install
 
 ```json
 {
-  "gitDiffAiReviewer.aiApiUrl": "https://api.anthropic.com/v1/messages",
-  "gitDiffAiReviewer.aiApiKey": "sk-ant-xxx...",
-  "gitDiffAiReviewer.aiModel": "claude-3-5-sonnet-20241022",
+  "gitDiffAiReviewer.llm.enableInternal": false,
+  "gitDiffAiReviewer.externalAi.url": "https://api.anthropic.com/v1/messages",
+  "gitDiffAiReviewer.externalAi.apiKey": "sk-ant-xxx...",
+  "gitDiffAiReviewer.externalAi.model": "claude-3-5-sonnet-20241022",
   "gitDiffAiReviewer.targetBranch": "main"
 }
 ```
@@ -58,9 +72,10 @@ npm install
 
 ```json
 {
-  "gitDiffAiReviewer.aiApiUrl": "https://api.openai.com/v1/chat/completions",
-  "gitDiffAiReviewer.aiApiKey": "sk-...",
-  "gitDiffAiReviewer.aiModel": "gpt-4",
+  "gitDiffAiReviewer.llm.enableInternal": false,
+  "gitDiffAiReviewer.externalAi.url": "https://api.openai.com/v1/chat/completions",
+  "gitDiffAiReviewer.externalAi.apiKey": "sk-...",
+  "gitDiffAiReviewer.externalAi.model": "gpt-4",
   "gitDiffAiReviewer.targetBranch": "main"
 }
 ```
